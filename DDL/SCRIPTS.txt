@@ -1,0 +1,66 @@
+-- public.aulas definition
+-- Drop table
+-- DROP TABLE public.aulas;
+CREATE TABLE public.aulas (
+	id int8 GENERATED ALWAYS AS IDENTITY( INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1 NO CYCLE) NOT NULL,
+	nombre varchar NOT NULL,
+	CONSTRAINT aulas_pk PRIMARY KEY (id)
+);
+
+
+-- public.equipos definition
+-- Drop table
+-- DROP TABLE public.equipos;
+CREATE TABLE public.equipos (
+	id int8 GENERATED ALWAYS AS IDENTITY( INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 CACHE 1 NO CYCLE) NOT NULL,
+	marca varchar NULL,
+	modelo varchar NULL,
+	procesador varchar NULL,
+	ram int4 NULL,
+	cpu varchar NULL,
+	ndiscos int4 NULL,
+	tipodiscos varchar NULL,
+	grafica varchar NULL,
+	bluetooth bool NULL,
+	wifi bool NULL,
+	so varchar NOT NULL,
+	codigo varchar NOT NULL,
+	idaula int4 NOT NULL,
+	foto varchar NULL,
+	CONSTRAINT equipos_pkey PRIMARY KEY (id)
+);
+-- public.equipos foreign keys
+ALTER TABLE public.equipos ADD CONSTRAINT equipos_aulas_fk FOREIGN KEY (idaula) REFERENCES public.aulas(id);
+
+
+-- public.incidencias definition
+-- Drop table
+-- DROP TABLE public.incidencias;
+CREATE TABLE public.incidencias (
+	id int4 GENERATED ALWAYS AS IDENTITY( INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1 NO CYCLE) NOT NULL,
+	idaula int4 NOT NULL,
+	estado varchar NULL,
+	autor varchar NULL,
+	fecha date NULL,
+	descripcion varchar NULL,
+	solucion varchar NULL,
+	prioridad varchar NULL,
+	clase varchar NULL,
+	idequipo int4 NULL,
+	CONSTRAINT incidencias_pk PRIMARY KEY (id)
+);
+-- public.incidencias foreign keys
+ALTER TABLE public.incidencias ADD CONSTRAINT fk_equipos FOREIGN KEY (idequipo) REFERENCES public.equipos(id) ON DELETE CASCADE;
+ALTER TABLE public.incidencias ADD CONSTRAINT incidencias_aulas_fk FOREIGN KEY (idaula) REFERENCES public.aulas(id);
+ALTER TABLE public.incidencias ADD CONSTRAINT incidencias_equipos_fk FOREIGN KEY (idequipo) REFERENCES public.equipos(id);
+
+
+-- public.usuarios definition
+-- Drop table
+-- DROP TABLE public.usuarios;
+CREATE TABLE public.usuarios (
+	id serial4 NOT NULL,
+	nombre text NULL,
+	contrasena text NOT NULL,
+	CONSTRAINT usuarios_pkey PRIMARY KEY (id)
+);
